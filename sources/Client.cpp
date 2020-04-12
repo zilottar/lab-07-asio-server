@@ -19,7 +19,7 @@ void Client::answer_to_client() {
 void Client::ping_process() {
     if(sock().available()){
         already_read+= sock().read_some(
-                boost::asio::buffer(buff + already_read, 
+                boost::asio::buffer(buff + already_read,
                     max_size - already_read));
     }
 }
