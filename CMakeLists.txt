@@ -11,7 +11,21 @@ set(
   CACHE STRING "Default cache server"
 )
 
-include("tools/gate/cmake/HunterGate.cmake")
+include("tools/gate/HunterGate.cmake")
+cmake_minimum_required(VERSION 3.4)
+
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+
+option(BUILD_COVERAGE "Build coverage" OFF)
+
+set(
+  HUNTER_CACHE_SERVERS
+  "https://github.com/bmstu-iu8-cpp-sem-3/hunter-cache"
+  CACHE STRING "Default cache server"
+)
+
+include("tools/gate/HunterGate.cmake")
 
 HunterGate(
   URL "https://github.com/cpp-pm/hunter/archive/v0.23.218.tar.gz"
@@ -27,12 +41,20 @@ string(APPEND CMAKE_CXX_FLAGS " -Wshadow -Wnon-virtual-dtor")
 
 hunter_add_package(GTest)
 find_package(GTest CONFIG REQUIRED)
+hunter_add_package(Boost COMPONENTS log thread date_time filesystem system date_time regex)
+find_package(Boost CONFIG REQUIRED log thread filesystem system date_time regex)
 
 # TODO: change template word to project name and delete this comment
 add_library(template STATIC
   # enum your files and delete this comment
   ${CMAKE_CURRENT_SOURCE_DIR}/sources/source.cpp
 )
+add_library(Server STATIC
+        ${CMAKE_CURRENT_SOURCE_DIR}/sources/Server.cpp
+        )
+add_library(Client STATIC
+        ${CMAKE_CURRENT_SOURCE_DIR}/sources/Client.cpp
+        )
 add_executable(tests
   # TODO: enum your files and delete this comment
   ${CMAKE_CURRENT_SOURCE_DIR}/tests/test.cpp
@@ -45,9 +67,14 @@ target_include_directories(template
 target_include_directories(tests 
   PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include
 )
+target_include_directories(Server PUBLIC
+        ${CMAKE_CURRENT_SOURCE_DIR}/include)
+target_include_directories(Client PUBLIC
+        ${CMAKE_CURRENT_SOURCE_DIR}/include)
 # TODO: change template word to project name and delete this comment
 target_link_libraries(tests GTest::main template)
-
+target_link_libraries(Server Client Boost::log Boost::thread Boost::filesystem Boost::system)
+target_link_libraries(Client Boost::log Boost::date_time Boost::thread Boost::filesystem Boost::system)
 enable_testing()
 add_test(NAME unit_tests COMMAND tests) 
 
