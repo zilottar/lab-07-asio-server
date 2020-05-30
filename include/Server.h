@@ -1,4 +1,4 @@
-// Copyright 2020 <LinkIvan333>
+// Copyright 2020 <>
 
 #ifndef INCLUDE_HEADER_HPP_
 #define INCLUDE_HEADER_HPP_

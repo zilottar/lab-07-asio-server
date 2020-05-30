@@ -1,4 +1,4 @@
-//Copyright 2019 <LinkIvan333>
+//Copyright 2019 <>
 #pragma once
 
 #include <boost/log/utility/setup/common_attributes.hpp>
