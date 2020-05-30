@@ -1,21 +1,66 @@
-#ifndef TEMPLATE_SERVER_H
-#define TEMPLATE_SERVER_H
-#include <boost/asio.hpp>
-#include <boost/date_time/posix_time/posix_time.hpp>
-#include <boost/system/system_error.hpp>
-#include <boost/thread/thread.hpp>
-#include <boost/thread/recursive_mutex.hpp>
-#include <boost/bind.hpp>
+// Copyright 2020 <LinkIvan333>
+
+#ifndef INCLUDE_HEADER_HPP_
+#define INCLUDE_HEADER_HPP_
 #include <iostream>
-#include "Client.h"
-namespace ip=boost::asio::ip;
-class Server {
-private:
-    boost::asio::io_service service;
-    void accept_thread();
-    std::vector<Client> clients;
-    void handle_clients_thread();
+#include <string>
+#include <chrono>
+#include <thread>
+#include <boost/thread.hpp>
+#include <deque>
+#include <mutex>
+#include <boost/asio.hpp>
+#include <boost/log/core.hpp>
+#include <boost/log/trivial.hpp>
+#include <boost/log/expressions.hpp>
+#include <boost/log/sinks/text_file_backend.hpp>
+#include <boost/log/utility/setup/file.hpp>
+#include <boost/log/utility/setup/common_attributes.hpp>
+#include <boost/log/sources/severity_logger.hpp>
+#include <boost/log/sources/record_ostream.hpp>
+#include <boost/log/sinks/text_ostream_backend.hpp>
+#include "log.h"
+
+namespace logging = boost::log;
+namespace src = boost::log::sources;
+namespace sinks = boost::log::sinks;
+namespace keywords = boost::log::keywords;
+
+using boost::asio::ip::tcp;
+using boost::system::error_code;
+const int failTime = 5;
+const unsigned int max_msg = 1024;
+const int PORT = 8001;
+const std::chrono::milliseconds second = std::chrono::milliseconds(1000);
+
+struct Client {
+    tcp::socket socket;
+    std::string login;
+    std::chrono::system_clock::time_point lastLogin;
+    boost::asio::streambuf buffer;
+    explicit Client(boost::asio::io_context& io_context):socket(io_context),
+                                                        login(),
+                                                        lastLogin(std::chrono::system_clock::now()),
+                                                        buffer()
+                                                        {
+    }
 };
-
-
-#endif //TEMPLATE_SERVER_H
+class Server{
+public:
+    Server();
+private:
+    boost::asio::io_context ioService;
+    std::vector<std::shared_ptr<Client>> clients;
+    std::recursive_mutex mutex;
+    int already_read_ = 0;
+    char buff[max_msg];
+    bool clients_changed;
+    void runner();
+    void on_ping(std::shared_ptr<Client>& client);
+    void on_login(const std::string & msg, std::shared_ptr<Client>& client);
+    void on_clients(std::shared_ptr<Client>& client);
+    void answer_to_client( std::shared_ptr<Client>& client);
+    void connectionHandler();
+    void clientHandler();
+    };
+#endif // INCLUDE_HEADER_HPP_
