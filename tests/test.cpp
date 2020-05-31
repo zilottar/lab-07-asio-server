@@ -1,7 +1,7 @@
 // Copyright 2018 Your Name <your_email>
 
 #include <gtest/gtest.h>
-#include <include/server.h>
+#include <Server.h>
 int main(){
   Server server;
 }
