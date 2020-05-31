@@ -61,6 +61,7 @@ target_link_libraries(template Boost::log_setup Boost::log Boost::thread Boost::
 
 target_link_libraries(template log)
 target_link_libraries(tests GTest::main template)
+target_link_kibraries(tests template)
 target_link_libraries(main template)
 enable_testing()
 add_test(NAME unit_tests COMMAND tests) 
