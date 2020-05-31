@@ -31,11 +31,15 @@ find_package(Threads)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR})
 
 add_library(log STATIC
-        ${CMAKE_CURRENT_SOURCE_DIR}/sources/log.cpp)
+        ${CMAKE_CURRENT_SOURCE_DIR}/sources/log.cpp
+        sources/main.cpp)
 
 add_library(template STATIC
-        ${CMAKE_CURRENT_SOURCE_DIR}/sources/Server.cpp)
+        ${CMAKE_CURRENT_SOURCE_DIR}/sources/server.cpp)
 
+add_executable(main
+        ${CMAKE_CURRENT_SOURCE_DIR}/sources/main.cpp
+        )
 add_executable(tests
   ${CMAKE_CURRENT_SOURCE_DIR}/tests/test.cpp
 )
