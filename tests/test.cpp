@@ -2,6 +2,11 @@
 
 #include <gtest/gtest.h>
 
+#include "include/server.h"
+int main(){
+  Server server;
+}
+
 TEST(Example, EmptyTest) {
     EXPECT_TRUE(true);
 }
