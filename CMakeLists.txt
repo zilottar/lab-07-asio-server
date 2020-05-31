@@ -44,15 +44,15 @@ add_executable(tests
   ${CMAKE_CURRENT_SOURCE_DIR}/tests/test.cpp
 )
 
-target_include_directories(log
+include_directories(log
         PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include
         )
 
-target_include_directories(template 
+include_directories(template 
   PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include
 )
 
-target_include_directories(tests
+include_directories(tests
   PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include
 )
 target_link_libraries(log Boost::log_setup Boost::log Boost::thread Boost::filesystem Boost::system)
