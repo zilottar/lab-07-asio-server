@@ -1,6 +1,6 @@
 // Copyright 2020 <>
 
-#include <server.h>
+#include <Server.h>
 
 void Server::connectionHandler(){
   tcp::acceptor acceptor(ioService,
