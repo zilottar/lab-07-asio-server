@@ -35,7 +35,7 @@ add_library(log STATIC
         sources/main.cpp)
 
 add_library(template STATIC
-        ${CMAKE_CURRENT_SOURCE_DIR}/sources/server.cpp)
+        ${CMAKE_CURRENT_SOURCE_DIR}/sources/Server.cpp)
 
 add_executable(main
         ${CMAKE_CURRENT_SOURCE_DIR}/sources/main.cpp
