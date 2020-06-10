@@ -30,6 +30,7 @@ using boost::asio::ip::tcp;
 using boost::system::error_code;
 const int failTime = 5;
 const unsigned int max_msg = 1024;
+const unsigned LOG_SIZE = 10 * 1024 * 1024;
 const int PORT = 8001;
 const std::chrono::milliseconds second = std::chrono::milliseconds(1000);
 
