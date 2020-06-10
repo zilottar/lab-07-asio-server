@@ -7,7 +7,6 @@ void init()
       "TimeStamp", boost::log::attributes::local_clock());
   auto sinkFile = boost::log::add_file_log(
       keywords::file_name = "logs/log_info.log",
-      keywords::rotation_size = 128 * 1024 * 1024,
       keywords::format =
           (boost::log::expressions::stream
            << boost::log::expressions::format_date_time<
